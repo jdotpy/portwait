@@ -12,11 +12,11 @@ def wait_for_port(host, port, timeout=None):
             return False, time.time() - started
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.settimeout(.1)
+                s.settimeout(.5)
                 s.connect((host, port))
                 return True, time.time() - started
         except Exception as e:
-            time.sleep(.1)
+            time.sleep(.05)
             continue
 
 

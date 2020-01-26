@@ -3,6 +3,7 @@ portwait
 
 CLI Tool for waiting on ports to open.
 
+
 # Usage
 
     usage: portwait [-h] [-t TIMEOUT] [-v] host port
@@ -16,6 +17,7 @@ CLI Tool for waiting on ports to open.
       -t TIMEOUT, --timeout TIMEOUT
                             Timeout in seconds
       -v, --verbose         Describe result
+
 
 # Example
 
