@@ -8,13 +8,13 @@ import sys
 def wait_for_port(host, port, timeout=None):
     started = time.time()
     while True:
-        if timeout and (time.time() - started) > timeout:
-            return False
+        if timeout is not None and (time.time() - started) > timeout:
+            return False, time.time() - started
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(.1)
                 s.connect((host, port))
-                return True
+                return True, time.time() - started
         except Exception as e:
             time.sleep(.1)
             continue
@@ -28,15 +28,15 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Describe result')
     args = parser.parse_args()
 
-    listening = wait_for_port(args.host, args.port, timeout=args.timeout)
+    listening, duration = wait_for_port(args.host, args.port, timeout=args.timeout)
     if not listening:
         # We timed out
         if args.verbose:
-            print('Timeout')
+            print('Timeout after {:f} seconds'.format(duration))
         sys.exit(2)
     else:
         if args.verbose:
-            print('Connected')
+            print('Connected after {:f} seconds'.format(duration))
 
 
 if __name__ == '__main__':
